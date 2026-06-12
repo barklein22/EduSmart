@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EduSmart - יצירת מבדק</title>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    #loading-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    #loading-overlay.active {
+      display: flex;
+    }
+    #loading-box {
+      background: #fff;
+      border-radius: 16px;
+      padding: 36px 40px;
+      text-align: center;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      min-width: 260px;
+    }
+    #loading-box p {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 20px 0;
+      color: #222;
+    }
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #f0e0a0;
+      border-top-color: #c9a84c;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+<nav class="site-navbar">
+  <div class="navbar-inner">
+    <a class="navbar-logout" href="php/logout.php">התנתקות</a>
+    <div class="navbar-links">
+      <button class="nav-link" type="button" onclick="goTo('teacher-home.php')">דף הבית</button>
+      <button class="nav-link" type="button" onclick="goTo('teacher-quizzes.php')">המבדקים שלי</button>
+      <button class="nav-link" type="button" onclick="goTo('create-quiz.html')">צור מבדק</button>
+      <button class="nav-link" type="button" onclick="goTo('reports.php')">דוחות</button>
+    </div>
+    <img src="images/logo.png" alt="EduSmart" class="navbar-logo-img">
+  </div>
+</nav>
+  <main class="page-wrapper">
+    <section class="simple-header">
+      <button class="back-btn" type="button" onclick="goTo('teacher-home.php')">‹</button>
+    </section>
+
+    <div class="logo-wrap">
+      <img src="images/logo.png" alt="EduSmart Logo" class="logo-img">
+    </div>
+
+    <h1 class="page-title">יצירת מבדק</h1>
+
+    <p class="page-description">
+      מלאי את פרטי המבדק, והמערכת תיצור עבורך שאלות בעזרת AI.
+    </p>
+
+    <form class="form-card" action="php/generate_quiz_with_ai.php" method="POST">
+      <div class="form-group">
+        <label for="quizTopic">נושא השיעור</label>
+        <input type="text" id="quizTopic" name="topic" placeholder="לדוגמה: שם המספר" required>
+      </div>
+
+      <div class="form-group">
+        <label for="quizGrade">כיתה</label>
+        <select id="quizGrade" name="grade" required>
+          <option value="">בחרי כיתה</option>
+          <option value="ז׳">ז׳</option>
+          <option value="ח׳">ח׳</option>
+          <option value="ט׳">ט׳</option>
+          <option value="י׳">י׳</option>
+          <option value="יא׳">יא׳</option>
+          <option value="יב׳">יב׳</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="quizQuestionsCount">מספר שאלות</label>
+        <select id="quizQuestionsCount" name="num_questions" required>
+          <option value="">בחרי כמות</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+          <option value="10">10</option>
+          <option value="12">12</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="quizDifficulty">רמת קושי</label>
+        <select id="quizDifficulty" name="difficulty" required>
+          <option value="">בחרי רמת קושי</option>
+          <option value="קלה">קלה</option>
+          <option value="בינונית">בינונית</option>
+          <option value="קשה">קשה</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="quizClass">למי לשלוח</label>
+        <select id="quizClass" name="target_class" required>
+          <option value="">בחרי כיתה</option>
+          <option value="ז1">ז1</option>
+          <option value="ז2">ז2</option>
+          <option value="ז3">ז3</option>
+          <option value="ז4">ז4</option>
+          <option value="ז5">ז5</option>
+          <option value="ז6">ז6</option>
+          <option value="ח1">ח1</option>
+          <option value="ח2">ח2</option>
+          <option value="ח3">ח3</option>
+          <option value="ח4">ח4</option>
+          <option value="ח5">ח5</option>
+          <option value="ח6">ח6</option>
+          <option value="ט1">ט1</option>
+          <option value="ט2">ט2</option>
+          <option value="ט3">ט3</option>
+          <option value="ט4">ט4</option>
+          <option value="ט5">ט5</option>
+          <option value="ט6">ט6</option>
+          <option value="י1">י1</option>
+          <option value="י2">י2</option>
+          <option value="י3">י3</option>
+          <option value="י4">י4</option>
+          <option value="י5">י5</option>
+          <option value="י6">י6</option>
+          <option value="יא1">יא1</option>
+          <option value="יא2">יא2</option>
+          <option value="יא3">יא3</option>
+          <option value="יא4">יא4</option>
+          <option value="יא5">יא5</option>
+          <option value="יא6">יא6</option>
+          <option value="יב1">יב1</option>
+          <option value="יב2">יב2</option>
+          <option value="יב3">יב3</option>
+          <option value="יב4">יב4</option>
+          <option value="יב5">יב5</option>
+          <option value="יב6">יב6</option>
+        </select>
+      </div>
+
+      <button type="submit" id="submitBtn" class="gold-btn small-btn">יצירת מבדק</button>
+    </form>
+  </main>
+
+  <div id="loading-overlay">
+    <div id="loading-box">
+      <p>המערכת יוצרת שאלות... אנא המתן</p>
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <footer class="site-footer"><p>© כל הזכויות שמורות לצוות EduSmart</p></footer>
+  <script src="js/main.js"></script>
+  <script>
+    document.querySelector('.form-card').addEventListener('submit', function () {
+      document.getElementById('submitBtn').disabled = true;
+      document.getElementById('loading-overlay').classList.add('active');
+    });
+
+    (function () {
+      var UNIVERSITY_GROUPS = ['קבוצת לימוד א', 'קבוצת לימוד ב', 'קבוצת לימוד ג', 'קורס כללי'];
+
+      function applyInstitutionType(type) {
+        if (type !== 'university') return;
+        var gradeGroup = document.getElementById('quizGrade').closest('.form-group');
+        var gradeSelect = document.getElementById('quizGrade');
+        var classSelect = document.getElementById('quizClass');
+        var classLabel = classSelect.closest('.form-group').querySelector('label');
+
+        gradeGroup.style.display = 'none';
+        gradeSelect.removeAttribute('required');
+        gradeSelect.innerHTML = '<option value="אקדמי" selected>אקדמי</option>';
+
+        classSelect.innerHTML = '<option value="">בחרי קבוצה</option>';
+        UNIVERSITY_GROUPS.forEach(function (g) {
+          var opt = document.createElement('option');
+          opt.value = g;
+          opt.textContent = g;
+          classSelect.appendChild(opt);
+        });
+        if (classLabel) classLabel.textContent = 'קבוצת לימוד / קורס';
+      }
+
+      fetch('php/get_settings.php')
+        .then(function (r) { return r.json(); })
+        .then(function (d) { applyInstitutionType(d.institution_type); })
+        .catch(function () { /* default: keep school dropdowns */ });
+    })();
+  </script>
+</body>
+</html>

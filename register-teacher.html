@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduSmart - הרשמת מורה</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="page-wrapper top-space">
+    <section class="simple-header">
+      <button class="back-btn" type="button" onclick="goTo('choose-role.html')">‹</button>
+    </section>
+
+    <div class="logo-wrap">
+      <img src="images/logo.png" alt="EduSmart Logo" class="logo-img" />
+    </div>
+
+    <h1 class="page-title">הרשמת מורה</h1>
+
+    <form class="form-card" action="php/register.php" method="POST">
+      <input type="hidden" name="role" value="teacher" />
+
+      <div class="form-group">
+        <label for="teacherFirstName">שם פרטי</label>
+        <input type="text" id="teacherFirstName" name="first_name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="teacherLastName">שם משפחה</label>
+        <input type="text" id="teacherLastName" name="last_name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="teacherSchool">בית ספר</label>
+        <select id="teacherSchool" name="school" required>
+          <option value="">בחרי בית ספר</option>
+          <option>אורט רמת גן</option>
+          <option>בליך</option>
+          <option>אוהל שם</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="teacherSubject">מקצוע</label>
+        <select id="teacherSubject" name="subject" required>
+          <option value="">בחרי מקצוע</option>
+          <option>לשון</option>
+          <option>עברית</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="teacherUsername">שם משתמש</label>
+        <input type="text" id="teacherUsername" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="teacherPassword">סיסמה</label>
+        <input type="password" id="teacherPassword" name="password" required />
+      </div>
+
+      <button type="submit" class="gold-btn small-btn">הרשמה</button>
+    </form>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var err = new URLSearchParams(location.search).get('error');
+      if (err) {
+        var p = document.createElement('p');
+        p.style.cssText = 'color:#d9534f;text-align:center;margin:14px 0 0;font-size:0.95rem;font-weight:600;';
+        p.textContent = err;
+        document.querySelector('.form-card').appendChild(p);
+      }
+    })();
+  </script>
+</body>
+</html>

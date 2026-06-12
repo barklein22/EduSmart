@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduSmart - הרשמת תלמיד</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="page-wrapper top-space">
+    <section class="simple-header">
+      <button class="back-btn" type="button" onclick="goTo('choose-role.html')">‹</button>
+    </section>
+
+    <div class="logo-wrap">
+      <img src="images/logo.png" alt="EduSmart Logo" class="logo-img" />
+    </div>
+
+    <h1 class="page-title">הרשמת תלמיד</h1>
+
+    <form class="form-card" action="php/register.php" method="POST">
+      <input type="hidden" name="role" value="student" />
+
+      <div class="form-group">
+        <label for="studentFirstName">שם פרטי</label>
+        <input type="text" id="studentFirstName" name="first_name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="studentLastName">שם משפחה</label>
+        <input type="text" id="studentLastName" name="last_name" required />
+      </div>
+
+      <div class="form-group">
+        <label for="studentSchool">בית ספר</label>
+        <select id="studentSchool" name="school" required>
+          <option value="">בחרי בית ספר</option>
+          <option>אורט רמת גן</option>
+          <option>בליך</option>
+          <option>אוהל שם</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="studentClass">כיתה</label>
+        <select id="studentClass" name="class_name" required>
+          <option value="">בחרי כיתה</option>
+          <option>ז1</option>
+          <option>ז2</option>
+          <option>ז3</option>
+          <option>ז4</option>
+          <option>ז5</option>
+          <option>ז6</option>
+          <option>ח1</option>
+          <option>ח2</option>
+          <option>ח3</option>
+          <option>ח4</option>
+          <option>ח5</option>
+          <option>ח6</option>
+          <option>ט1</option>
+          <option>ט2</option>
+          <option>ט3</option>
+          <option>ט4</option>
+          <option>ט5</option>
+          <option>ט6</option>
+          <option>י1</option>
+          <option>י2</option>
+          <option>י3</option>
+          <option>י4</option>
+          <option>י5</option>
+          <option>י6</option>
+          <option>יא1</option>
+          <option>יא2</option>
+          <option>יא3</option>
+          <option>יא4</option>
+          <option>יא5</option>
+          <option>יא6</option>
+          <option>יב1</option>
+          <option>יב2</option>
+          <option>יב3</option>
+          <option>יב4</option>
+          <option>יב5</option>
+          <option>יב6</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="studentUsername">שם משתמש</label>
+        <input type="text" id="studentUsername" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="studentPassword">סיסמה</label>
+        <input type="password" id="studentPassword" name="password" required />
+      </div>
+
+      <button type="submit" class="gold-btn small-btn">הרשמה</button>
+    </form>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var err = new URLSearchParams(location.search).get('error');
+      if (err) {
+        var p = document.createElement('p');
+        p.style.cssText = 'color:#d9534f;text-align:center;margin:14px 0 0;font-size:0.95rem;font-weight:600;';
+        p.textContent = err;
+        document.querySelector('.form-card').appendChild(p);
+      }
+    })();
+
+    (function () {
+      var UNIVERSITY_GROUPS = ['קבוצת לימוד א', 'קבוצת לימוד ב', 'קבוצת לימוד ג', 'קורס כללי'];
+
+      function applyInstitutionType(type) {
+        if (type !== 'university') return;
+
+        // School field: change label + replace select with free-text input
+        var schoolLabel = document.querySelector('label[for="studentSchool"]');
+        var schoolSelect = document.getElementById('studentSchool');
+        if (schoolLabel) schoolLabel.textContent = 'מוסד אקדמי';
+        if (schoolSelect) {
+          var textInput = document.createElement('input');
+          textInput.type = 'text';
+          textInput.id = 'studentSchool';
+          textInput.name = 'school';
+          textInput.required = true;
+          textInput.placeholder = 'הזיני שם המוסד האקדמי';
+          schoolSelect.parentNode.replaceChild(textInput, schoolSelect);
+        }
+
+        // Class field: change label + replace options
+        var classLabel = document.querySelector('label[for="studentClass"]');
+        var classSelect = document.getElementById('studentClass');
+        if (classLabel) classLabel.textContent = 'קורס / קבוצת לימוד';
+        if (classSelect) {
+          classSelect.innerHTML = '<option value="">בחרי קבוצה</option>';
+          UNIVERSITY_GROUPS.forEach(function (g) {
+            var opt = document.createElement('option');
+            opt.value = g;
+            opt.textContent = g;
+            classSelect.appendChild(opt);
+          });
+        }
+      }
+
+      fetch('php/get_settings.php')
+        .then(function (r) { return r.json(); })
+        .then(function (d) { applyInstitutionType(d.institution_type); })
+        .catch(function () { /* default: keep school classes */ });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduSmart - התחברות</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="page-wrapper top-space">
+    <section class="simple-header">
+      <button class="back-btn" type="button" onclick="goTo('index.html')">‹</button>
+    </section>
+
+    <div class="logo-wrap">
+      <img src="images/logo.png" alt="EduSmart Logo" class="logo-img" />
+    </div>
+
+    <h1 class="page-title">התחברות</h1>
+
+    <form class="form-card" action="php/login.php" method="POST">
+      <div class="form-group">
+        <label for="loginUsername">שם משתמש</label>
+        <input type="text" id="loginUsername" name="username" required />
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">סיסמה</label>
+        <input type="password" id="loginPassword" name="password" required />
+      </div>
+
+      <div class="form-group">
+        <label for="loginRole">סוג משתמש</label>
+        <select id="loginRole" name="role" required>
+          <option value="">בחרי סוג משתמש</option>
+          <option value="student">תלמיד/ה</option>
+          <option value="teacher">מורה</option>
+          <option value="admin">מנהל</option>
+        </select>
+      </div>
+
+      <button type="submit" class="gold-btn small-btn">כניסה</button>
+
+      <p class="bottom-link">
+        עדיין אין לך חשבון?
+        <a href="choose-role.html">להרשמה</a>
+      </p>
+    </form>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var err = new URLSearchParams(location.search).get('error');
+      if (err) {
+        var p = document.createElement('p');
+        p.style.cssText = 'color:#d9534f;text-align:center;margin:14px 0 0;font-size:0.95rem;font-weight:600;';
+        p.textContent = err;
+        document.querySelector('.form-card').appendChild(p);
+      }
+    })();
+  </script>
+</body>
+</html>

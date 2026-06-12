@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EduSmart - בחירת סוג משתמש</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="page-wrapper welcome-page">
+    <section class="simple-header">
+      <button class="back-btn" type="button" onclick="goTo('index.html')">‹</button>
+    </section>
+
+    <section class="center-section">
+      <div class="logo-wrap logo-home">
+        <img src="images/logo.png" alt="EduSmart Logo" class="logo-img large" />
+      </div>
+
+      <h1 class="page-title">הרשמה</h1>
+
+      <div class="auth-buttons">
+        <button class="gold-btn" type="button" onclick="goTo('register-student.html')">אני תלמיד/ה</button>
+        <button class="gold-btn" type="button" onclick="goTo('register-teacher.html')">אני מורה</button>
+      </div>
+    </section>
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      var btnStudent = document.querySelector('button[onclick="goTo(\'register-student.html\')"]');
+      var btnTeacher = document.querySelector('button[onclick="goTo(\'register-teacher.html\')"]');
+
+      function applyInstitutionType(type) {
+        if (type !== 'university') return;
+        if (btnStudent) btnStudent.textContent = 'אני סטודנט/ית';
+        if (btnTeacher) btnTeacher.textContent = 'אני מרצה';
+      }
+
+      fetch('php/get_settings.php')
+        .then(function (r) { return r.json(); })
+        .then(function (d) { applyInstitutionType(d.institution_type); })
+        .catch(function () { /* default: keep school wording */ });
+    })();
+  </script>
+</body>
+</html>
